@@ -5,6 +5,14 @@ const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 const { loginValidation, registerValidation } = require('../validation');
 
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    }catch(err){
+        res.send(err);
+    }
+})
 
 router.post('/login', async (req,res) => {
     const { error } = loginValidation(req.body);
@@ -23,7 +31,7 @@ router.post('/login', async (req,res) => {
     };
 
     const token = jwt.sign( { _id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
+    res.header('auth-token', token).send("Login Successful!");
 })
 
 router.post('/register', async (req, res) => {

@@ -5,6 +5,9 @@ const postsRoute = require('./routes/posts');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const { post } = require('./routes/posts');
+const cors = require('cors');
+
+app.use(cors());
 
 dotenv.config();
 
