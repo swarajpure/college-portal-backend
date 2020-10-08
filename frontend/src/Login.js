@@ -12,9 +12,6 @@ export default class Login extends React.Component {
             },
             body: JSON.stringify(this.state)
         })
-        // fetch('http://localhost:3000/users/get')
-        // .then(res => res.json())
-        // .then(res => console.log(res))
     }
     handleChange = (e) => {
         this.setState({
@@ -23,13 +20,19 @@ export default class Login extends React.Component {
     }
     render(){
     return(
-        <div>
-            <form onSubmit={ this.showName }>
-                <label>Enter email</label>
-                <input type="text" id="email" onChange={this.handleChange}></input>
-                <label>Enter password</label>
-                <input type="text" id="password" onChange={this.handleChange} />
-                <button>Submit</button>
+        <div className="container">
+            <div>
+                <h1>Login</h1>
+            </div>
+            <div className="form"></div>
+            <form onSubmit={ this.handle }>
+                <label>Enter email</label><br></br>
+                <input type="text" id="email" onChange={this.handleChange} />
+                <br></br>
+                <label>Enter password</label><br></br>
+                <input type="password" id="password" onChange={this.handleChange} />
+                <br></br>
+                <button className='submit-btn'>Submit</button>
             </form>
         </div>
     )
