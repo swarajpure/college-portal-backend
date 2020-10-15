@@ -30,8 +30,8 @@ router.post('/login', async (req,res) => {
         return res.status(400).send("Wrong Password");
     };
 
-    const token = jwt.sign( { _id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send("Login Successful!");
+    const token = jwt.sign({ _id: user._id, role: user.role}, process.env.TOKEN_SECRET);
+    res.cookie('session', token).json({ message: 'Login Successful!'} );
 })
 
 router.post('/register', async (req, res) => {
@@ -42,12 +42,12 @@ router.post('/register', async (req, res) => {
 
     const emailExists = await User.findOne({ email: req.body.email});
     if (emailExists){ 
-        return res.status(400).send("Email already exists").body("Email Exists");
+        return res.status(400).send("Email already exists").json("Email Exists");
     };
 
     const nameExists = await User.findOne({ name: req.body.name});
     if (nameExists) { 
-        return res.status(400).send("Name already exists").body("Name Exissts");
+        return res.status(400).send("Name already exists").json("Name Exissts");
     };
 
     // Hash password
@@ -65,7 +65,7 @@ router.post('/register', async (req, res) => {
         res.send(savedUser._id);
     }
     catch(err) {
-        res.status(406).send(err);   
+        res.status(406).json(err);   
     }
 })
 

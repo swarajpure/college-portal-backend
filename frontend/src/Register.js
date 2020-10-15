@@ -3,6 +3,7 @@ import './common.css';
 
 export default class Register extends React.Component {
     showName = (e) => {
+        console.log(JSON.stringify(this.state))
         e.preventDefault();
         fetch('http://localhost:3000/users/register', {
             method: 'POST',
@@ -39,6 +40,12 @@ export default class Register extends React.Component {
                     <br></br>
                     <label>Enter password</label><br></br>
                     <input type="password" id="password" required minLength="6" onChange={this.handleChange} />
+                    <br></br>
+                    <label>Enter role</label><br></br>
+                    <input type="radio" id="role" value="student" onChange={this.handleChange} />
+                    <label htmlFor="role">Student</label>
+                    <input type="radio" id="role" value="teacher" onChange={this.handleChange} />
+                    <label htmlFor="role">Teacher</label>
                     <br></br>
                     <button className='submit-btn'>Submit</button>
                     <div className="displayResponse"></div>

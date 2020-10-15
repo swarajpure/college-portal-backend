@@ -3,7 +3,7 @@ const router = express.Router();
 const { auth } = require('./verifyToken');
 
 router.get('/', auth, (req, res) => {
-    res.send("HELLO");
+    res.json("HELLO");
 })
 
 module.exports = router;
