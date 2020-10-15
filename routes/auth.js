@@ -42,12 +42,12 @@ router.post('/register', async (req, res) => {
 
     const emailExists = await User.findOne({ email: req.body.email});
     if (emailExists){ 
-        return res.status(400).send("Email already exists");
+        return res.status(400).send("Email already exists").body("Email Exists");
     };
 
     const nameExists = await User.findOne({ name: req.body.name});
     if (nameExists) { 
-        return res.status(400).send("Name already exists");
+        return res.status(400).send("Name already exists").body("Name Exissts");
     };
 
     // Hash password
@@ -57,6 +57,7 @@ router.post('/register', async (req, res) => {
     const user = new User( {
         name: req.body.name,
         email: req.body.email,
+        role: req.body.role,
         password: hashPassword
     });
     try {
@@ -64,7 +65,7 @@ router.post('/register', async (req, res) => {
         res.send(savedUser._id);
     }
     catch(err) {
-        res.status(400).send(err);   
+        res.status(406).send(err);   
     }
 })
 

@@ -1,3 +1,4 @@
+const { bool } = require('@hapi/joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -19,6 +20,11 @@ const userSchema = new Schema({
         required: true,
         min: 6,
         max: 1024
+    },
+    role: {
+        type: String,
+        required: true,
+        default: "student"
     },
     date: {
         type: Date,
