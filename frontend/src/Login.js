@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default class Login extends React.Component {
-    showName = (e) => {
+    handleSubmit = (e) => {
         console.log(this.state)
         e.preventDefault();
         fetch('http://localhost:3000/users/login', {
@@ -13,6 +13,7 @@ export default class Login extends React.Component {
             },
             body: JSON.stringify(this.state)
         }).then(res => console.log(res))
+        .catch(function(err){console.log(err)})
     }
     handleChange = (e) => {
         this.setState({
@@ -26,7 +27,7 @@ export default class Login extends React.Component {
                 <h1>Login</h1>
             </div>
             <div className="form"></div>
-            <form onSubmit={ this.handle }>
+            <form onSubmit={ this.handleSubmit }>
                 <label>Enter email</label><br></br>
                 <input type="text" id="email" onChange={this.handleChange} />
                 <br></br>
