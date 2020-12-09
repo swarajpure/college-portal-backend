@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../model/User');
 const { loginValidation, registerValidation } = require('../validation');
 const { db } = require('../firestore')
 const userModel = db.collection('users')
@@ -21,23 +20,37 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/login', async (req,res) => {
-    const { error } = loginValidation(req.body);
-    if (error) {
-        return res.status(400).send(error.details[0].message);
-    }
+    try {
+        const { error } = loginValidation(req.body);
+        if (error) {
+            return res.status(400).send(error.details[0].message);
+        }
 
-    const user = await User.findOne({ email: req.body.email});
-    if (!user){
-        return res.status(400).send("User not found");
-    }
+        const userExists = await userModel.where('email', '==', req.body.email).limit(1).get()
+        if (userExists.empty){
+            return res.status(400).send("User not found");
+        }
 
-    const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) {
-        return res.status(400).send("Wrong Password");
-    }
+        let userDetails;
+        userExists.forEach(doc => {
+            userDetails = doc.data();
+        })
+        console.log(userDetails)
 
-    const token = jwt.sign({ _id: user._id, role: user.role}, process.env.TOKEN_SECRET);
-    return res.cookie('session', token).json({ message: 'Login Successful!'} );
+        const validPass = await bcrypt.compare(req.body.password, userDetails.password);
+        if (!validPass) {
+            return res.status(400).send("Wrong Password");
+        }
+
+        const token = jwt.sign({ id: userDetails.id, role: userDetails.role}, process.env.TOKEN_SECRET);
+        return res.cookie('session', token, {
+            domain: 'localhost',
+            expires: new Date(Date.now() + 9999999999)
+        }).json({ message: 'Login Successful!'} );
+        } catch (err){
+            return res.json(`Error: ${err}`)
+        }
+
 })
 
 router.post('/register', async (req, res) => {
@@ -47,9 +60,7 @@ router.post('/register', async (req, res) => {
     }
 
     const emailExists = await userModel.where('email', '==', req.body.email).limit(1).get()
-    console.log(emailExists.data)
     if (!emailExists.empty){
-        console.log(emailExists.data)
         return res.status(400).json("Email already exists");
     }
 
@@ -70,7 +81,7 @@ router.post('/register', async (req, res) => {
     }
     try {
         const savedUser = await userModel.add(user)
-        return res.status(200).json("User registered successfully! " + savedUser.id);
+        return res.status(200).json(`${user.name} registered successfully!`);
     }
     catch(err) {
         return res.status(500).json(err);
