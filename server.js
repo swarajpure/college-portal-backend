@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const authRoute = require('./routes/auth');
+const authRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
