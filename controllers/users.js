@@ -49,12 +49,12 @@ const register = async (req, res) => {
 
     const userFromEmail = await userQuery.userExists(req.body.email);
     if(userFromEmail){
-        res.status(500).json("Email already exists!")
+        return res.status(500).json("Email already exists!")
     }
 
     const userFromName = await userQuery.userExists(req.body.name);
     if(userFromName){
-        res.status(500).json("Name already taken!")
+        return res.status(500).json("Name already taken!")
     }
 
     // Hash password
@@ -68,7 +68,7 @@ const register = async (req, res) => {
         password: hashPassword
     }
     try {
-        const savedUser = await userModel.add(user)
+        await userQuery.addUser(user);
         return res.status(200).json(`${user.name} registered successfully!`);
     }
     catch(err) {
@@ -78,5 +78,6 @@ const register = async (req, res) => {
 
 module.exports = {
     getUsers,
-    login
+    login,
+    register
 }

@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const authenticate = require('../middlewares/authenticate');
+const postsController = require('../controllers/posts')
 
+router.get('/', authenticate.isUser, postsController.getPosts);
 
-router.get('/', authenticate.isUser, (req, res) => {
-    res.json("LOGGED IN")
-})
-
-router.post('/create', authenticate.isTeacher, (req, res) => {
-    res.json("HELLO");
-})
+router.post('/create', authenticate.isTeacher, postsController.createPost);
 
 module.exports = router;

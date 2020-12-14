@@ -42,8 +42,10 @@ const addUser = async (user) => {
     const savedUser = await userModel.add(user)
     return savedUser
 }
+
 module.exports = {
     fetchUsers,
     findUser,
-    userExists
+    userExists,
+    addUser
 }
