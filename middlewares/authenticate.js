@@ -5,6 +5,8 @@ const isUser = (req, res, next) => {
     if(!token) {
         return res.status(401).send("You need to be logged in to view this page!");
     }
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    req.userData = decoded //adding name and role to the req object
     return next()
 }
 

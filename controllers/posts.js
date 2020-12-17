@@ -17,10 +17,14 @@ const createPost = async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
     try {
+        const d = Date.now()
+        const date = new Date(d)
+        const dateString = date.toDateString()
+        console.log(dateString)
         const post = {
             author: req.body.author,
             content: req.body.content,
-            date: Date.now()
+            date: dateString
         }
         await postQuery.addPost(post);
         console.log(post);

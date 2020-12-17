@@ -5,6 +5,8 @@ const userController = require('../controllers/users')
 
 router.get('/', authenticate.isUser, userController.getUsers)
 
+router.get('/self', authenticate.isUser, userController.getSelfDetails)
+
 router.post('/login', userController.login)
 
 router.post('/register', userController.register)

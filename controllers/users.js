@@ -13,6 +13,10 @@ const getUsers = async (req, res) => {
     }
 }
 
+const getSelfDetails = (req, res) => {
+    res.send(req.userData)
+}
+
 const login = async (req,res) => {
     try {
         const { error } = validation.loginValidation(req.body);
@@ -27,7 +31,7 @@ const login = async (req,res) => {
                 return res.status(400).send("Wrong Password");
             }
 
-            const token = jwt.sign({ id: userDetails.id, role: userDetails.role}, process.env.TOKEN_SECRET);
+            const token = jwt.sign({ id: userDetails.id, role: userDetails.role, name: userDetails.name}, process.env.TOKEN_SECRET);
             return res.cookie('session', token, {
                 domain: 'localhost',
                 expires: new Date(Date.now() + 9999999999)
@@ -78,6 +82,7 @@ const register = async (req, res) => {
 
 module.exports = {
     getUsers,
+    getSelfDetails,
     login,
     register
 }
