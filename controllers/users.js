@@ -51,12 +51,12 @@ const register = async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
 
-    const userFromEmail = await userQuery.userExists(req.body.email);
+    const userFromEmail = await userQuery.emailExists(req.body.email);
     if(userFromEmail){
         return res.status(500).json("Email already exists!")
     }
 
-    const userFromName = await userQuery.userExists(req.body.name);
+    const userFromName = await userQuery.nameExists(req.body.name);
     if(userFromName){
         return res.status(500).json("Name already taken!")
     }

@@ -16,16 +16,24 @@ const fetchUsers = async () => {
     }
 }
 
-const userExists = async (key) => {
-    const userExists = await userModel.where(`${key}`, '==', key).limit(1).get()
-    if (userExists.empty){
+const nameExists = async (name) => {
+    const user = await userModel.where('name', '==', name).limit(1).get()
+    if (user.empty){
+        return false;
+    }
+    return true;
+}
+
+const emailExists = async (email) => {
+    const user = await userModel.where('email', '==', email).limit(1).get()
+    if (user.empty){
         return false;
     }
     return true;
 }
 
 const findUser = async (email) => {
-    const userExists = await userModel.where('email', '==', email).limit(1).get()
+    const userExists = await userModel.where('email', '==', email).limit(1)
     if (userExists.empty){
         return null;
     }
@@ -46,6 +54,7 @@ const addUser = async (user) => {
 module.exports = {
     fetchUsers,
     findUser,
-    userExists,
+    nameExists,
+    emailExists,
     addUser
 }
