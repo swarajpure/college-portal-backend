@@ -33,13 +33,13 @@ const emailExists = async (email) => {
 }
 
 const findUser = async (email) => {
-    const userExists = await userModel.where('email', '==', email).limit(1)
-    if (userExists.empty){
+    const userSnapshot = await userModel.where('email', '==', email).limit(1).get();
+    if (userSnapshot.empty){
         return null;
     }
 
     let userDetails;
-    userExists.forEach(doc => {
+    userSnapshot.forEach(doc => {
         userDetails = doc.data();
     });
 
