@@ -10,6 +10,6 @@ module.exports = {
     "rules": {
         'no-trailing-spaces': 'error',
         'consistent-return': 'error',
-        'no-console': 'warn'
+        'no-console': 'error'
     }
 };

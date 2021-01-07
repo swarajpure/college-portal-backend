@@ -10,8 +10,7 @@ const fetchPosts = async () => {
         });
         return allPosts;
     } catch(err){
-        console.log("Could not fetch posts!");
-        throw err;
+        return err;
     }
 }
 

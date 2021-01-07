@@ -1,18 +1,17 @@
+const { response } = require('express');
 const { db } = require('../firestore');
 const userModel = db.collection('users');
 
 const fetchUsers = async () => {
     try {
         const snapshot = await userModel.get();
-        // console.log(snapshot)
         const allUsers = [];
         snapshot.forEach((doc) => {
             allUsers.push(doc.data())
         });
         return allUsers;
     } catch(err){
-        console.log("Could not fetch users!");
-        throw err;
+        return response.json({ message: err});
     }
 }
 

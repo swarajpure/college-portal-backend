@@ -6,15 +6,14 @@ const bcrypt = require('bcryptjs');
 const getUsers = async (req, res) => {
     try {
         const allUsers = await userQuery.fetchUsers()
-        console.log(allUsers)
         return res.json(allUsers)
-    }catch(err){
-        return res.status(500).json(err);
+    } catch(err) {
+        return res.status(500).send({ message: err });
     }
 }
 
 const getSelfDetails = (req, res) => {
-    res.send(req.userData)
+    return res.send(req.userData)
 }
 
 const login = async (req,res) => {
@@ -38,7 +37,7 @@ const login = async (req,res) => {
             }).json({ message: 'Login Successful!'} );
         }
         else {
-            res.status(404).json({ message: "User not found!" })
+            return res.status(404).json({ message: "User not found!" })
         }
     } catch (err){
             return res.json({message: `Error: ${err}` })
