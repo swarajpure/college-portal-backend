@@ -1,14 +1,15 @@
 const express = require('express');
+
 const router = express.Router();
-const authenticate = require('../middlewares/authenticate')
-const userController = require('../controllers/users')
+const authenticate = require('../middlewares/authenticate');
+const userController = require('../controllers/users');
 
-router.get('/', authenticate.isUser, userController.getUsers)
+router.get('/', authenticate.isUser, userController.getUsers);
 
-router.get('/self', authenticate.isUser, userController.getSelfDetails)
+router.get('/self', authenticate.isUser, userController.getSelfDetails);
 
-router.post('/login', userController.login)
+router.post('/login', userController.login);
 
-router.post('/register', userController.register)
+router.post('/register', userController.register);
 
 module.exports = router;
