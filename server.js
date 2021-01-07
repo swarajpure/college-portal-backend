@@ -4,11 +4,14 @@ const authRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
+
+dotenv.config();
 
 app.use(cookieParser());
 

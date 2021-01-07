@@ -21,14 +21,14 @@ const login = async (req,res) => {
     try {
         const { error } = validation.loginValidation(req.body);
         if (error) {
-            return res.status(400).send(error.details[0].message);
+            return res.status(400).json({ message: error.details[0].message });
         }
 
         const userDetails = await userQuery.findUser(req.body.email);
         if(userDetails){
             const validPass = await bcrypt.compare(req.body.password, userDetails.password);
             if (!validPass) {
-                return res.status(400).send("Wrong Password");
+                return res.status(400).json({ message: "Wrong Password" });
             }
 
             const token = jwt.sign({ id: userDetails.id, role: userDetails.role, name: userDetails.name}, process.env.TOKEN_SECRET);
@@ -41,24 +41,24 @@ const login = async (req,res) => {
             res.status(404).json({ message: "User not found!" })
         }
     } catch (err){
-            return res.json(`Error: ${err}`)
+            return res.json({message: `Error: ${err}` })
         }
 }
 
 const register = async (req, res) => {
     const { error } = validation.registerValidation(req.body);
     if(error) {
-        return res.status(400).send(error.details[0].message);
+        return res.status(400).json({ message: error.details[0].message });
     }
 
     const userFromEmail = await userQuery.emailExists(req.body.email);
     if(userFromEmail){
-        return res.status(500).json("Email already exists!")
+        return res.status(500).json({ message: "Email already exists!" })
     }
 
     const userFromName = await userQuery.nameExists(req.body.name);
     if(userFromName){
-        return res.status(500).json("Name already taken!")
+        return res.status(500).json({ message: "Name already taken!" })
     }
 
     // Hash password
@@ -73,10 +73,10 @@ const register = async (req, res) => {
     }
     try {
         await userQuery.addUser(user);
-        return res.status(200).json(`${user.name} registered successfully!`);
+        return res.status(200).json({ message: `${user.name} registered successfully!`});
     }
     catch(err) {
-        return res.status(500).json(err);
+        return res.status(500).json({ message: err });
     }
 }
 

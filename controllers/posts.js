@@ -14,7 +14,7 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
     const { error } = postValidation(req.body);
     if(error) {
-        return res.status(400).send(error.details[0].message);
+        return res.status(400).json({ message: error.details[0].message });
     }
     try {
         const d = Date.now()
@@ -28,7 +28,7 @@ const createPost = async (req, res) => {
         }
         await postQuery.addPost(post);
         console.log(post);
-        return res.json('Post created successfully!:' + post);
+        return res.json({ message: 'Post created successfully!'});
     }
     catch (err){
         return res.status(502).json(err);
