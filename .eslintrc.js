@@ -10,7 +10,6 @@ module.exports = {
   rules: {
     'no-trailing-spaces': 'error',
     'consistent-return': 'error',
-    'no-console': 'error',
     'comma-dangle': ['error', 'never']
   }
 };

@@ -13,12 +13,13 @@ const isUser = (req, res, next) => {
 const isTeacher = (req, res, next) => {
   const token = req.cookies.session;
   if (!token) {
-    return res.status(401).json({ message: 'You need to be logged in to view/create posts!' });
+    return res.status(401).json({ message: 'You need to be logged in to proceed!' });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
     if (decoded.role === 'teacher') {
+      req.userData = decoded;
       return next();
     }
 

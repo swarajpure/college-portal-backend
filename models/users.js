@@ -1,4 +1,3 @@
-const { response } = require('express');
 const { db } = require('../firestore');
 
 const userModel = db.collection('users');
@@ -12,7 +11,7 @@ const fetchUsers = async () => {
     });
     return allUsers;
   } catch (err) {
-    return response.json({ message: err });
+    return err;
   }
 };
 
