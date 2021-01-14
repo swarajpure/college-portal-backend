@@ -12,6 +12,11 @@ const getUsers = async (req, res) => {
   }
 };
 
+const signOut = (req, res) => {
+  res.clearCookie('session');
+  res.json('Signed out successfully!');
+};
+
 const getSelfDetails = (req, res) => res.send(req.userData);
 
 const login = async (req, res) => {
@@ -73,7 +78,7 @@ const register = async (req, res) => {
   };
   try {
     await userQuery.addUser(user);
-    return res.status(200).json({ message: `${user.name} registered successfully!` });
+    return res.status(200).json({ message: 'Registration successful!' });
   } catch (err) {
     return res.status(500).json({ message: err });
   }
@@ -83,5 +88,6 @@ module.exports = {
   getUsers,
   getSelfDetails,
   login,
-  register
+  register,
+  signOut
 };
