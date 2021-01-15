@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server",
+    "start": "node server",
     "lint-fix": "eslint . --fix"
   },
   "keywords": [],
