@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const config = require('config');
 const bcrypt = require('bcryptjs');
 const userQuery = require('../models/users');
 const validation = require('../middlewares/validators/userValidator');
@@ -37,7 +38,7 @@ const login = async (req, res) => {
         id: userDetails.id,
         role: userDetails.role,
         name: userDetails.name
-      }, process.env.TOKEN_SECRET);
+      }, config.get('tokenSecret'));
       return res.cookie('session', token, {
         domain: 'localhost',
         expires: new Date(Date.now() + 9999999999)
